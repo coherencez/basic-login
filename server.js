@@ -13,23 +13,37 @@ app.set('port', port)
 app.set('view engine', 'pug')
 app.use(express.static('public'))
 app.locals.title = 'BASIC LOGIN'
+app.locals.body = {}
 
 // middlewarez
 app.use(session({
   store: new RedisStore(),
-  secret: 'loginapphaha'
+  secret: 'loginapphaha',
+  resave: false,
+  saveUninitialized: true
+  // cookie: { secure: true }
 }))
 app.use((req,res,next) => {
   app.locals.user = req.session.email
   next()
 })
-app.use(bodyParser.urlencoded({extendable: false}))
+app.use(bodyParser.urlencoded({extended: false}))
 // error handling
-app.use((err,req,res,next) => {
-  res.sendStatus(err.status || 500)
-  console.error(`[${new Date().toString()}] ${req.method} ${req.url}`)
+app.use((err,{method, url, headers: {'user-agent': agent}},res,next) => {
+  if(process.env.NODE_ENV === 'production') {
+    res.sendStatus(err.status || 500)
+  } else {
+    res.set('Content-Type', 'text/plain').send(err.stack)
+  }
+
+  const timeStamp     = new Date()
+  const statusCode    = res.statusCode
+  const statusMessage = res.statusMessage
+
+  console.error(
+       `[${timeStamp}] "${`${method} ${url}`}" Error (${statusCode}): "${statusMessage}"`
+     )
   console.error(err.stack)
-  next()
 })
 app.use(routes)
 // connect to db then initiate server on port 3000

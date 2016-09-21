@@ -5,11 +5,7 @@ html
     link(rel='stylesheet' href='main.css')
   body
     ul.nav
-      if user
-        form(method='POST')
-          button(type='submit' href='/' name='logout') Logout
-      else
-        li: a(href='/login') Login
-        li: a(href='/register') Register
+      li: a(href='/login') Login
+      li: a(href='/register') Register
     h1 Hello World
     block content
