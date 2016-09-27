@@ -57,7 +57,7 @@ route.post('/register', ({ body },res, err) => {
       } else {
         User
           .create(body)
-          .then(() => res.render('login', {title: 'Please log in below'}))
+          .then(() => res.redirect('/login'))
           .catch(err)
       }
     })
