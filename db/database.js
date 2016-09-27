@@ -1,6 +1,6 @@
 'use strict'
 const  mongoose = require('mongoose')
-  ,   MONGODB_URL = process.env.MOGODB_URL
+  ,   MONGODB_URL = process.env.TEST || 'mongodb://localhost:27017/basic-login'
 
 mongoose.Promise = Promise
 
