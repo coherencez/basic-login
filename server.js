@@ -18,6 +18,7 @@ app.locals.body = {}
 // middlewarez
 app.use(session({
   store: new RedisStore(),
+  url: process.env.REDIS_URL || 'redis://localhost:6379/'
   secret: 'loginapphaha',
   resave: false,
   saveUninitialized: true
@@ -54,4 +55,3 @@ connect()
     })
   })
   .catch(console.error)
-
