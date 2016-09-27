@@ -49,10 +49,20 @@ route.get('/register', (req,res) => {
 route.post('/register', ({ body },res, err) => {
 	// create user in db
 	// redirect to login page
-	User
-		.create(body)
-		.then(() => res.redirect('/login'))
-		.catch(err)
+  User
+    .findOne(body)
+    .then(user => {
+      if(user) {
+        res.render('register', {title: 'Email already in use, please try again'})
+      } else {
+        User
+          .create(body)
+          .then(() => res.render('login', {title: 'Please log in below'}))
+          .catch(err)
+      }
+    })
+    .catch(err)
+
 })
 
 module.exports = route
