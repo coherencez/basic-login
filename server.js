@@ -17,11 +17,9 @@ app.locals.body = {}
 
 // middlewarez
 app.use(session({
-  store: new RedisStore(),
-  url: process.env.REDIS_URL || 'redis://localhost:6379/',
-  secret: process.env.SESSION_SECRET ||'loginapphaha',
-  resave: false,
-  saveUninitialized: true
+  url: process.env.REDIS_URL || 'redis://localhost:6379',
+	store: new RedisStore(),
+	secret: process.env.SESSION_SECRET || 'loginapphaha'
   // cookie: { secure: true }
 }))
 app.use((req,res,next) => {
