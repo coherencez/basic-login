@@ -22,10 +22,12 @@ app.use(session({
 	secret: process.env.SESSION_SECRET || 'loginapphaha'
   // cookie: { secure: true }
 }))
+
 app.use((req,res,next) => {
-  app.locals.user = req.session.email
+  app.locals.user = req.session && req.session.email
   next()
 })
+
 app.use(bodyParser.urlencoded({extended: false}))
 // error handling
 app.use((err,{method, url, headers: {'user-agent': agent}},res,next) => {
